@@ -13,5 +13,5 @@ public class SubjectRequest
     
     [Required]public AssignmentModel Assignment { get; set; }
     
-    [Required]public List<TestModel> Tests { get; set; }
+    //[Required]public List<TestModel> Tests { get; set; }
 }

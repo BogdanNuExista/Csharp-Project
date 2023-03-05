@@ -29,7 +29,7 @@ public class SubjectController : ControllerBase
             ProfessorMail = request.ProfessorMail,
             Grades = request.Grades,
             Assignment = request.Assignment,
-            Tests = request.Tests
+            Tests = new List<TestModel>()                         //Tests = request.Tests
         };
 
         var response = await _dbContext.AddAsync(subject);
@@ -63,7 +63,7 @@ public class SubjectController : ControllerBase
             });
     }
 
-    [HttpGet("{Id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<SubjectResponse>> Get([FromRoute] string id)
     {
         var entity = await _dbContext.Subjects.FirstOrDefaultAsync(x => x.Id == id);
@@ -77,11 +77,11 @@ public class SubjectController : ControllerBase
             ProfessorMail = entity.ProfessorMail,
             Grades = entity.Grades,
             Assignment = entity.Assignment,
-            Tests = entity.Tests
+            // Tests = entity.Tests
         };
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<ActionResult<SubjectResponse>> Delete([FromRoute] string id)
     {
         var entity =await _dbContext.Subjects.FirstOrDefaultAsync(x => x.Id == id);
@@ -102,7 +102,7 @@ public class SubjectController : ControllerBase
         };
     }
 
-    [HttpPatch]
+    [HttpPatch("{id}")]
     public async Task<ActionResult<SubjectResponse>> Patch([FromRoute] string id, [FromBody] SubjectRequest req)
     {
         var entity = await _dbContext.Subjects.FirstOrDefaultAsync(x => x.Id == id);
@@ -113,7 +113,7 @@ public class SubjectController : ControllerBase
         entity.ProfessorMail = req.ProfessorMail;
         entity.Grades = req.Grades;
         entity.Assignment = req.Assignment;
-        entity.Tests = req.Tests;
+        //entity.Tests = req.Tests;
         entity.Updated = DateTime.UtcNow;
 
         await _dbContext.SaveChangesAsync();

@@ -9,5 +9,5 @@ public class TestRequest
 
     [Required]public DateTime TestDate { get; set; }
     
-    [Required]public List<SubjectModel> Subjects { get; set; }
+    //[Required]public List<SubjectModel> Subjects { get; set; }
 }

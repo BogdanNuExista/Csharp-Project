@@ -27,7 +27,7 @@ public class TestController : ControllerBase
             Updated = DateTime.UtcNow,
             Title = request.Title,
             TestDate = request.TestDate,
-            Subjects = request.Subjects
+            Subjects = new List<SubjectModel>()             // Subjects = request.Subjects
         };
 
         var response = await _dbContext.AddAsync(test);
@@ -53,11 +53,11 @@ public class TestController : ControllerBase
                 Id = test.Id,
                 Title = test.Title,
                 TestDate = test.TestDate,
-                Subjects = test.Subjects
+                Subjects = new List<SubjectModel>()     //Subjects = test.Subjects
             });
     }
 
-    [HttpGet("{Id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<TestResponse>> Get([FromRoute] string id)
     {
         var entity = await _dbContext.Tests.FirstOrDefaultAsync(x => x.Id == id);
@@ -73,7 +73,7 @@ public class TestController : ControllerBase
         };
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<ActionResult<TestResponse>> Delete([FromRoute] string id)
     {
         var entity = await _dbContext.Tests.FirstOrDefaultAsync(x => x.Id == id);
@@ -92,7 +92,7 @@ public class TestController : ControllerBase
         };
     }
 
-    [HttpPatch]
+    [HttpPatch("{id}")]
     public async Task<ActionResult<TestResponse>> Patch([FromRoute] string id,[FromBody] TestRequest req)
     {
         var entity = await _dbContext.Tests.FirstOrDefaultAsync(x => x.Id == id);
@@ -101,7 +101,7 @@ public class TestController : ControllerBase
 
         entity.Title = req.Title;
         entity.TestDate = req.TestDate;
-        entity.Subjects = req.Subjects;
+        //entity.Subjects = req.Subjects;
         entity.Updated = DateTime.UtcNow;
 
         await _dbContext.SaveChangesAsync();
